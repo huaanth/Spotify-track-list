@@ -64,5 +64,12 @@ def get_token():
     token_valid = True
     return token_info,token_valid
 
+def create_spotify_oauth():
+    return SpotifyOAuth(
+        client_id = clientid
+        client_secret= secretkey ,
+        redirect_uri= url_for('authorize', _external = True),
+        scope = "user-library-read")
+
 
 
