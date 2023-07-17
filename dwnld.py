@@ -19,3 +19,7 @@ def ScrapeID(query):
 
     results = soup.find("a", id = "video-title")
     return results["href"].split('/watch?v=')[1]
+
+def DownloadID(id):
+    #going to use download the songs based on their id
+    return ""
