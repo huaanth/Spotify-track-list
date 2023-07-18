@@ -21,5 +21,34 @@ def ScrapeID(query):
     return results["href"].split('/watch?v=')[1]
 
 def DownloadID(id):
-    #going to use download the songs based on their id
-    return ""
+    saved_path = str(os.path.join(Path.home,"Downloads/songs"))
+    try:
+        os.mkdir(saved_path)
+    except:
+        print("folder already exists")
+    
+    options = {
+        "format": "bestaudio/best:",
+        "postprocessors": [{'key': 'FFmpegExtractAudio',
+        		'preferredcodec': 'mp3',
+        		'preferredquality': '192',}],
+        'outtmpl': saved_path + '/%(title)s.%(ext)s',
+    }
+    with youtube_dl.YoutubeDL(options) as ydl:
+        ydl.download(id)
+
+def Downloadtitle(title):
+    song_ids =[]
+    for i, query in enumerate(title):
+        vid_id = ScrapeID(query)
+        song_ids += [vid_id]
+    print("Downloading")
+    DownloadID(song_ids)
+
+def __main__():
+    
+    data = pandas.read_csv('songs.csv')
+    data = data['column'].tolist()
+    print("Downloading ", len(data), " songs")
+    Downloadtitle(data[0:1])
+__main__()
